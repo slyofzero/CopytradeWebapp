@@ -32,8 +32,6 @@ export function VerifyPopModal({ setShowModal, address, mutate }: Props) {
           `/api/auth/pop?address=${address}`
         );
 
-        console.log(data.response < 300);
-
         if (data.response < 300) {
           console.log("here");
           mutate();

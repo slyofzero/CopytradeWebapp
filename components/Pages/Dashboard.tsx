@@ -8,6 +8,7 @@ import { veritificationEthAmount } from "@/utils/constants";
 import { useState } from "react";
 import { ShowWhen } from "../Utils";
 import { PopModal } from "../Modals/PopModal";
+import { ImportWalletModal } from "../Modals/ImportWalletModal";
 
 export function Dashboard() {
   const { data, mutate } = useApi<UserApiResponse>("/api/user");
@@ -15,6 +16,7 @@ export function Dashboard() {
   const image = generateProfilePicture(userData?.mainWallet || "");
   const addresses = [userData?.mainWallet, ...(userData?.wallets || [])];
 
+  const [showImportWalletModal, setShowImportWalletModal] = useState(false);
   const [showPopModal, setShowPopModal] = useState(false);
 
   return (
@@ -47,7 +49,10 @@ export function Dashboard() {
           </div>
 
           <div className="hidden md:flex flex-col justify-center items-center font-bold gap-4 text-sm">
-            <button className="px-4 py-1 text-black bg-white rounded-md">
+            <button
+              onClick={() => setShowImportWalletModal(true)}
+              className="px-4 py-1 text-black bg-white rounded-md"
+            >
               Import with Private Key
             </button>
             <button
@@ -60,7 +65,10 @@ export function Dashboard() {
         </div>
 
         <div className="flex md:hidden flex-col justify-center items-center font-bold gap-4 text-sm mt-8">
-          <button className="px-4 py-1 text-black bg-white rounded-md">
+          <button
+            onClick={() => setShowImportWalletModal(true)}
+            className="px-4 py-1 text-black bg-white rounded-md"
+          >
             Import with Private Key
           </button>
           <button
@@ -71,6 +79,16 @@ export function Dashboard() {
           </button>
         </div>
       </div>
+      <ShowWhen
+        component={
+          <ImportWalletModal
+            mutate={mutate}
+            setShowModal={setShowImportWalletModal}
+          />
+        }
+        when={showImportWalletModal}
+      />
+
       <ShowWhen
         component={<PopModal mutate={mutate} setShowModal={setShowPopModal} />}
         when={showPopModal}

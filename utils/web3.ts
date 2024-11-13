@@ -2,6 +2,8 @@
 // import { erc20Abi } from "./constants";
 // import { ethers } from "ethers";
 
+import { Wallet } from "ethers";
+
 export function isValidEthAddress(address: string) {
   const regex = /^0x[a-fA-F0-9]{40}$/;
   return regex.test(address);
@@ -12,6 +14,15 @@ export function shortenEthAddress(address: string, show: number = 3) {
     address.length - show,
     address.length
   )}`;
+}
+
+export function importWallet(key: string) {
+  try {
+    const wallet = new Wallet(key);
+    return wallet.address;
+  } catch {
+    return false;
+  }
 }
 
 // export async function getTokenBalance(

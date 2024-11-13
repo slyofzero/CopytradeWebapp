@@ -4,4 +4,5 @@ export const {
   VAULT_PRIVATE_KEY,
   NEXT_PUBLIC_VAULT_ADDRESS,
   SCRIPT_URL,
+  ENCRYPTION_KEY,
 } = process.env;

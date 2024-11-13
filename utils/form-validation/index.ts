@@ -1,6 +1,7 @@
 import { UsernameApiResponse } from "@/pages/api/username";
 import { apiFetcher } from "../api";
 import { MatchFuncType } from "./types";
+import { Wallet } from "ethers";
 
 export * from "./types";
 
@@ -44,3 +45,21 @@ export const isValidEthAddress: MatchFuncType = (address) => {
 
   return true;
 };
+
+// ------------------------------ To check if the private key is valid ------------------------------
+export function isValidPrivateKey(privateKey: string) {
+  // Check if the private key is 64 characters and hexadecimal
+  const isHexadecimal = /^[0-9a-fA-F]{64}$/.test(privateKey);
+
+  if (!isHexadecimal) {
+    return "Please enter a valid private key.";
+  }
+
+  try {
+    // Try creating a Wallet instance with the private key
+    new Wallet(privateKey);
+    return true;
+  } catch {
+    return "Please enter a valid private key.";
+  }
+}

@@ -82,9 +82,7 @@ export default async function verifySignin(
           updateDocumentById<StoredUser>({
             collectionName: "users",
             id: userData.id || "",
-            updates: {
-              wallets: [...userData.wallets, address],
-            },
+            updates: { wallets: [...userData.wallets, address] },
           });
 
           return res
