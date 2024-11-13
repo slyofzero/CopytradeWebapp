@@ -75,6 +75,10 @@ export default async function verifySignin(
               .json({ message: `User ${token.username} not found` });
           }
 
+          if (userData.wallets.includes(address)) {
+            return res.status(201).json({ message: "Wallet is already added" });
+          }
+
           updateDocumentById<StoredUser>({
             collectionName: "users",
             id: userData.id || "",

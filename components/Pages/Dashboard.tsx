@@ -19,7 +19,6 @@ export function Dashboard() {
 
   return (
     <>
-      {" "}
       <div className="flex-grow flex-col gap-8 justify-center items-center">
         <div className="flex gap-8 md:gap-16 justify-center items-center mt-16">
           <div className="flex flex-col justify-center items-center gap-4">
