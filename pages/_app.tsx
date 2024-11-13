@@ -28,7 +28,7 @@ export const poppins = Poppins({
 
 function AuthComp() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isDisconnected } = useAccount();
 
   useEffect(() => {
     (async () => {
@@ -46,12 +46,11 @@ function AuthComp() {
             }
           );
           const token = signin.data.token;
-          console.log(token);
           if (token) localStorage.setItem(JWTKeyName, token);
         }
       }
     })();
-  }, [isConnected, address]);
+  }, [isConnected, address, isDisconnected]);
 
   return (
     <>

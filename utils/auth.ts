@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { NextApiRequest } from "next";
 
 interface TokenData {
@@ -14,16 +14,16 @@ export function createToken(data: TokenData) {
   return token;
 }
 
-export function decodeJWT(req: NextApiRequest) {
+export function decodeJWT(req: NextApiRequest): TokenData | null {
   try {
     const { authorization } = req.headers;
     const decoded = jwt.verify(
       String(authorization),
       process.env.ENCRYPTION_KEY || ""
-    ) as JwtPayload;
+    ) as TokenData;
 
-    return decoded.address as string;
+    return decoded;
   } catch (err) {
-    return false;
+    return null;
   }
 }

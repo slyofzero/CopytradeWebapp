@@ -17,7 +17,7 @@ interface Props {
 
 const buttons: ButtonData[] = [
   { link: "/", text: "Home" },
-  { link: "#", text: "Link 1" },
+  { link: "/dashboard", text: "Dashboard" },
   { link: "#", text: "Link 2" },
   { link: "#", text: "Link 3" },
 ];

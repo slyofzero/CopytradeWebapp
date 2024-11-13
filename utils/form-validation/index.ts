@@ -32,3 +32,15 @@ export const isValidUsername: MatchFuncType = async (username) => {
 
   return true;
 };
+
+// ------------------------------ To check if the address is valid ------------------------------
+export const isValidEthAddress: MatchFuncType = (address) => {
+  const ethAddressPattern = /^0x[a-fA-F0-9]{40}$/;
+  const isAddressValid = ethAddressPattern.test(address);
+
+  if (!isAddressValid) {
+    return "Please enter a valid Ethereum address.";
+  }
+
+  return true;
+};
