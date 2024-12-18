@@ -34,6 +34,7 @@ export function RegisterUsernameModal({ setShowModal }: Props) {
     if (token) {
       localStorage.setItem(JWTKeyName, token);
       router.push("/dashboard");
+      setShowModal(false);
     }
   }
 
@@ -56,7 +57,10 @@ export function RegisterUsernameModal({ setShowModal }: Props) {
             match={[isValidUsername]}
           />
 
-          <button className="text-black bg-white rounded-md font-semibold px-4 text-sm p-2 whitespace-nowrap">
+          <button
+            type="submit"
+            className="text-black bg-white rounded-md font-semibold px-4 text-sm p-2 whitespace-nowrap"
+          >
             Create Account
           </button>
         </form>

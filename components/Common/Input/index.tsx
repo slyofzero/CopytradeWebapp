@@ -64,7 +64,7 @@ export function Input({
           className,
           validationError ? "border-red-500" : "border-white"
         )}
-        // @ts-ignore
+        // @ts-expect-error erere
         onChange={onchange || handleInputChange}
         required={required}
         onInvalid={(e: ChangeEvent<HTMLInputElement>) => {

@@ -62,6 +62,8 @@ export default async function verifySignin(
             parseFloat(ethers.formatEther(value)).toFixed(4)
           );
 
+          console.log(etherValue);
+
           if (etherValue !== veritificationEthAmount) continue;
 
           const [userData] = await getDocument<StoredUser>({

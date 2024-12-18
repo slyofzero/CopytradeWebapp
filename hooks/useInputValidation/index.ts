@@ -18,6 +18,7 @@ export function useInputValidation<T extends ValidatableElement>({
           ref.current?.setCustomValidity("not valid");
         } else {
           setValidationError("");
+          ref.current?.setCustomValidity("");
         }
       };
 
@@ -35,6 +36,7 @@ export function useInputValidation<T extends ValidatableElement>({
         }
       } else {
         setValidationError("");
+        ref.current?.setCustomValidity("");
       }
     }
   };

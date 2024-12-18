@@ -49,7 +49,9 @@ export const isValidEthAddress: MatchFuncType = (address) => {
 // ------------------------------ To check if the private key is valid ------------------------------
 export function isValidPrivateKey(privateKey: string) {
   // Check if the private key is 64 characters and hexadecimal
-  const isHexadecimal = /^[0-9a-fA-F]{64}$/.test(privateKey);
+  const isHexadecimal = /^0x[0-9a-fA-F]{64}$|^[0-9a-fA-F]{64}$/.test(
+    privateKey
+  );
 
   if (!isHexadecimal) {
     return "Please enter a valid private key.";
