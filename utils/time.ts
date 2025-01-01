@@ -1,5 +1,9 @@
 import moment from "moment";
 
+export function getNowTimestamp() {
+  return Math.floor(Date.now() / 1000);
+}
+
 export function formatToDisplayDate(seconds: number) {
   return moment.unix(seconds).format("D MMM, YYYY");
 }

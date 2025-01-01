@@ -1,4 +1,6 @@
 import NextLink from "next/link";
 
 type NextLinkProps = React.ComponentPropsWithoutRef<typeof NextLink>;
-export interface LinkProps extends NextLinkProps {}
+export interface LinkProps extends NextLinkProps {
+  temp?: string;
+}
