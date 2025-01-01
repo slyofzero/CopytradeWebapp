@@ -18,7 +18,7 @@ export default async function registerUser(
 
     switch (method) {
       case "POST": {
-        const { username, address } = JSON.parse(req.body);
+        const { username, address } = req.body;
 
         const user = (
           await getDocument<StoredUser>({
@@ -39,7 +39,7 @@ export default async function registerUser(
             username,
             mainWallet: address,
             joinedOn: Timestamp.now(),
-            wallets: [],
+            wallets: [address],
           },
         });
 

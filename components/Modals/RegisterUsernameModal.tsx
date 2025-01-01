@@ -30,10 +30,11 @@ export function RegisterUsernameModal({ setShowModal }: Props) {
       fieldData
     );
     const token = userRegistered.data.token;
+    const username = formData.get("username") as string;
 
     if (token) {
       localStorage.setItem(JWTKeyName, token);
-      router.push("/dashboard");
+      router.push(`/user/${username}`);
       setShowModal(false);
     }
   }

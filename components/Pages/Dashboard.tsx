@@ -9,12 +9,21 @@ import { useState } from "react";
 import { ShowWhen } from "../Utils";
 import { PopModal } from "../Modals/PopModal";
 import { ImportWalletModal } from "../Modals/ImportWalletModal";
+import { useUser } from "@/states";
 
-export function Dashboard() {
-  const { data, mutate } = useApi<UserApiResponse>("/api/user");
+interface Props {
+  username: string;
+}
+
+export function Dashboard({ username }: Props) {
+  const { data, mutate } = useApi<UserApiResponse>(`/api/user/${username}`);
+
+  const { user } = useUser();
+
+  const isDashboard = user?.username === username;
   const userData = data?.user;
   const image = generateProfilePicture(userData?.mainWallet || "");
-  const addresses = [userData?.mainWallet, ...(userData?.wallets || [])];
+  const addresses = userData?.wallets || [];
 
   const [showImportWalletModal, setShowImportWalletModal] = useState(false);
   const [showPopModal, setShowPopModal] = useState(false);
@@ -48,7 +57,26 @@ export function Dashboard() {
             </div>
           </div>
 
-          <div className="hidden md:flex flex-col justify-center items-center font-bold gap-4 text-sm">
+          {isDashboard && (
+            <div className="hidden md:flex flex-col justify-center items-center font-bold gap-4 text-sm">
+              <button
+                onClick={() => setShowImportWalletModal(true)}
+                className="px-4 py-1 text-black bg-white rounded-md"
+              >
+                Import with Private Key
+              </button>
+              <button
+                onClick={() => setShowPopModal(true)}
+                className="px-4 py-1 text-black bg-white rounded-md"
+              >
+                Pay {veritificationEthAmount}ETH to connect
+              </button>
+            </div>
+          )}
+        </div>
+
+        {isDashboard && (
+          <div className="flex md:hidden flex-col justify-center items-center font-bold gap-4 text-sm mt-8">
             <button
               onClick={() => setShowImportWalletModal(true)}
               className="px-4 py-1 text-black bg-white rounded-md"
@@ -62,22 +90,7 @@ export function Dashboard() {
               Pay {veritificationEthAmount}ETH to connect
             </button>
           </div>
-        </div>
-
-        <div className="flex md:hidden flex-col justify-center items-center font-bold gap-4 text-sm mt-8">
-          <button
-            onClick={() => setShowImportWalletModal(true)}
-            className="px-4 py-1 text-black bg-white rounded-md"
-          >
-            Import with Private Key
-          </button>
-          <button
-            onClick={() => setShowPopModal(true)}
-            className="px-4 py-1 text-black bg-white rounded-md"
-          >
-            Pay {veritificationEthAmount}ETH to connect
-          </button>
-        </div>
+        )}
       </div>
       <ShowWhen
         component={

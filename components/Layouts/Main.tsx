@@ -3,6 +3,8 @@ import { Link } from "../Common";
 import { classNames } from "@/utils";
 import { saira } from "@/pages/_app";
 import { ConnectButton } from "../blockchain";
+import { useAccount } from "wagmi";
+import { useUser } from "@/states";
 
 interface ButtonData {
   text: string;
@@ -23,17 +25,32 @@ const buttons: ButtonData[] = [
 ];
 
 export function MainLayout({ children, className }: Props) {
+  const { isConnected } = useAccount();
+  const { user } = useUser();
+
   const navButtons = (
     <>
-      {buttons.map(({ link, text }, key) => (
-        <Link
-          key={key}
-          className="bg-black text-white p-2 rounded-lg w-fit text-center lg:w-32"
-          href={link}
-        >
-          {text}
-        </Link>
-      ))}
+      {buttons.map(({ link, text }, key) =>
+        text.toLowerCase() === "dashboard" ? (
+          isConnected && (
+            <Link
+              key={key}
+              className="bg-black text-white p-2 rounded-lg w-fit text-center lg:w-32"
+              href={`/user/${user?.username}`}
+            >
+              {text}
+            </Link>
+          )
+        ) : (
+          <Link
+            key={key}
+            className="bg-black text-white p-2 rounded-lg w-fit text-center lg:w-32"
+            href={link}
+          >
+            {text}
+          </Link>
+        )
+      )}
     </>
   );
 

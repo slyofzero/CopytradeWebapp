@@ -27,7 +27,7 @@ export default async function getUser(
           return res.status(401).json({ message: "Please sign in." });
         }
 
-        const { address, key } = JSON.parse(req.body);
+        const { address, key } = req.body;
 
         // Wallet addition
         const userData = (

@@ -13,6 +13,9 @@ export async function apiPoster<T>(
   headers?: Headers,
   method?: string
 ) {
+  headers ||= new Headers();
+  headers.append("Content-Type", "application/json");
+
   const response = await fetch(url, {
     method: method || "POST",
     body: JSON.stringify(body),

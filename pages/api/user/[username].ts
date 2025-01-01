@@ -1,7 +1,6 @@
 import { getDocument } from "@/firebase";
 import { ApiResponseTemplate } from "@/types/api";
 import { StoredUser } from "@/types/user";
-import { decodeJWT } from "@/utils/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export interface UserApiResponse extends ApiResponseTemplate {
@@ -14,6 +13,7 @@ export default async function getUser(
 ) {
   try {
     const method = req.method;
+    const { username } = req.query;
 
     switch (method) {
       case "POST": {
@@ -39,17 +39,11 @@ export default async function getUser(
       }
 
       case "GET": {
-        const token = decodeJWT(req);
-
-        if (!token) {
-          return res.status(401).json({ message: "Please sign in." });
-        }
-
-        if (token.username) {
+        if (username) {
           const user = (
             await getDocument<StoredUser>({
               collectionName: "users",
-              queries: [["username", "==", token.username]],
+              queries: [["username", "==", username]],
             })
           ).at(0);
 

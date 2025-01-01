@@ -12,6 +12,7 @@ import { RegisterUsernameModal } from "@/components/Modals";
 import { ShowWhen } from "@/components/Utils";
 import { JWTKeyName } from "@/utils/constants";
 import { SignInApiResponse } from "./api/auth/signin";
+import { useUser } from "@/states";
 
 // Instantiate the Saira font with the desired options
 export const saira = Saira({
@@ -29,6 +30,7 @@ export const poppins = Poppins({
 function AuthComp() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { address, isConnected, isDisconnected } = useAccount();
+  const { setUser } = useUser();
 
   useEffect(() => {
     (async () => {
@@ -38,6 +40,7 @@ function AuthComp() {
 
         if (!userData) setShowRegisterModal(true);
         else {
+          setUser(userData);
           const signin = await apiPoster<SignInApiResponse>(
             "/api/auth/signin",
             {
@@ -48,9 +51,11 @@ function AuthComp() {
           const token = signin.data.token;
           if (token) localStorage.setItem(JWTKeyName, token);
         }
+      } else if (isDisconnected) {
+        localStorage.removeItem(JWTKeyName);
       }
     })();
-  }, [isConnected, address, isDisconnected]);
+  }, [isConnected, address, isDisconnected, setUser]);
 
   return (
     <>
