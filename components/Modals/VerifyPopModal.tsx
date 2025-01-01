@@ -33,7 +33,6 @@ export function VerifyPopModal({ setShowModal, address, mutate }: Props) {
         );
 
         if (data.response < 300) {
-          console.log("here");
           mutate();
           break;
         }

@@ -47,8 +47,6 @@ export function Transactions({ username }: Props) {
     `/api/transactions/${username}?page=${page}`
   );
   const totalPages = data?.totalPages || 0;
-  console.log(totalPages);
-
   const nextPage = () => {
     if (page < totalPages) {
       setPage(page + 1);

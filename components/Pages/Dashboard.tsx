@@ -1,16 +1,16 @@
 import { Image, Link } from "../Common";
-import { generateProfilePicture } from "@/utils/general";
 import { shortenEthAddress } from "@/utils/web3";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useApi } from "@/hooks";
 import { UserApiResponse } from "@/pages/api/user";
 import { veritificationEthAmount } from "@/utils/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShowWhen } from "../Utils";
 import { PopModal } from "../Modals/PopModal";
 import { ImportWalletModal } from "../Modals/ImportWalletModal";
 import { useUser } from "@/states";
 import { Transactions } from "../Transactions";
+import { generateProfilePicture } from "@/utils/general";
 
 interface Props {
   username: string;
@@ -18,13 +18,16 @@ interface Props {
 
 export function Dashboard({ username }: Props) {
   const { data, mutate } = useApi<UserApiResponse>(`/api/user/${username}`);
-
   const { user } = useUser();
+  const [image, setImage] = useState<string>("");
 
   const isDashboard = user?.username === username;
   const userData = data?.user;
-  const image = generateProfilePicture(userData?.mainWallet || "");
   const addresses = userData?.wallets || [];
+  useEffect(() => {
+    const image = generateProfilePicture(userData?.mainWallet || "");
+    setImage(image);
+  }, [userData]);
 
   const [showImportWalletModal, setShowImportWalletModal] = useState(false);
   const [showPopModal, setShowPopModal] = useState(false);
