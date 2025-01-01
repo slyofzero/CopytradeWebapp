@@ -10,6 +10,7 @@ import { ShowWhen } from "../Utils";
 import { PopModal } from "../Modals/PopModal";
 import { ImportWalletModal } from "../Modals/ImportWalletModal";
 import { useUser } from "@/states";
+import { Transactions } from "../Transactions";
 
 interface Props {
   username: string;
@@ -91,7 +92,10 @@ export function Dashboard({ username }: Props) {
             </button>
           </div>
         )}
+
+        <Transactions username={username} />
       </div>
+
       <ShowWhen
         component={
           <ImportWalletModal

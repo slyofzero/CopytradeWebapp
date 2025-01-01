@@ -1,5 +1,13 @@
+import { SwapTxnData } from "@/types/tx";
+import { apiFetcher } from "@/utils/api";
 import { SCRIPT_URL } from "@/utils/env";
 import { NextApiRequest, NextApiResponse } from "next";
+
+export interface ProfileTxnsResponse {
+  transactions: SwapTxnData[];
+  currentPage: number;
+  totalPages: number;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,15 +26,10 @@ export default async function handler(
   }
 
   try {
-    const response = await fetch(
+    const { data } = await apiFetcher<ProfileTxnsResponse>(
       `${SCRIPT_URL}/profile/${username}?page=${page}&size=${size}`
     );
-    if (!response.ok) {
-      throw new Error("Failed to fetch profile");
-    }
-
-    const data = await response.json();
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (e) {
     const error = e as Error;
     res.status(500).json({ error: error.message });
