@@ -2,8 +2,10 @@ import { addDocument, getDocument, updateDocumentById } from "@/firebase";
 import { ApiResponseTemplate } from "@/types/api";
 import { StoredUser } from "@/types/user";
 import { StoredWallet } from "@/types/wallet";
+import { apiPoster } from "@/utils/api";
 import { decodeJWT } from "@/utils/auth";
 import { encrypt } from "@/utils/cryptography";
+import { SCRIPT_URL } from "@/utils/env";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export interface ImportWalletResponse extends ApiResponseTemplate {
@@ -66,8 +68,13 @@ export default async function getUser(
           });
         }
 
-        return res.status(400).json({
-          message: `Please enter the address field`,
+        apiPoster(`${SCRIPT_URL}/newWallet`, {
+          username: token.username,
+          wallet: address,
+        });
+
+        return res.status(200).json({
+          message: "New wallet imported",
         });
       }
 

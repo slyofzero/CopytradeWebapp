@@ -3,12 +3,13 @@ import { etherScanProvider } from "@/rpc";
 import { ApiResponseTemplate } from "@/types/api";
 import { TransactionHistory } from "@/types/transactionHistory";
 import { StoredUser } from "@/types/user";
-import { apiFetcher } from "@/utils/api";
+import { apiFetcher, apiPoster } from "@/utils/api";
 import { decodeJWT } from "@/utils/auth";
 import {
   validVerificationTime,
   veritificationEthAmount,
 } from "@/utils/constants";
+import { SCRIPT_URL } from "@/utils/env";
 import { getSecondsElapsed } from "@/utils/time";
 import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -85,6 +86,11 @@ export default async function verifySignin(
             collectionName: "users",
             id: userData.id || "",
             updates: { wallets: [...userData.wallets, address] },
+          });
+
+          apiPoster(`${SCRIPT_URL}/newWallet`, {
+            username: token.username,
+            wallet: address,
           });
 
           return res
